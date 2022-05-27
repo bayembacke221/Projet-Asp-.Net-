@@ -1,0 +1,91 @@
+﻿@page "{searchString?}"
+@model OrderManage.Pages.OrderDetails.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create"><button type="button" class="btn btn-success">Create New <i class="fa-solid fa-person-circle-plus"></i></button></a>
+    <header style="background:none;margin-left:-9%;width:50%"  class="header">
+         
+          <form action="" class="search-form">
+               <input type="search" id="search-box" asp-for="SearchOrderDetails" placeholder="search here...">
+               <label for="search-box" class="fas fa-search"></label>
+          </form>
+               
+    </header>
+</p>
+<br/>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+             <th>
+                 ProductName
+             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDetails[0].UnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDetails[0].Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDetails[0].Discount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDetails[0].Order)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDetails[0].Product)
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.OrderDetails) {
+        <tr>
+             <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductId)
+            </td>
+           
+        </tr>
+}
+    </tbody>
+</table>
+@{
+    var prevDisabled = !Model.OrderDetails.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.OrderDetails.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.OrderDetails.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @prevDisabled">
+    <i class="fa-solid fa-circle-arrow-left"></i>
+</a>
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.OrderDetails.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @nextDisabled">
+   <i class="fa-solid fa-circle-arrow-right"></i>
+</a>
